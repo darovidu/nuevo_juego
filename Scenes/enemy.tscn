@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://dju1wkhpxunhb"]
+
+[ext_resource type="Script" uid="uid://bdhc04q3j0h7i" path="res://Scripts/enemy.gd" id="1_1f0kj"]
+[ext_resource type="Texture2D" uid="uid://oxv4kwd5vu14" path="res://Assets/Player/Handgun1.png" id="1_hghv2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hghv2")
+}],
+"loop": 1,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yf5fn"]
+radius = 127.74019
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1397574840]
+modulate = Color(1, 0.05882353, 0.10980392, 1)
+scale = Vector2(3, 3)
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_1f0kj")
+
+[node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=1053194367]
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"idle"
+
+[node name="HitBox" type="CollisionShape2D" parent="." unique_id=403392355]
+shape = SubResource("CircleShape2D_g4v7s")
+
+[node name="Marker" type="Marker2D" parent="." unique_id=1010563474]
+position = Vector2(21, 0)
+
+[node name="DetectionArea" type="Area2D" parent="." unique_id=1350656174]
+collision_layer = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea" unique_id=1591487672]
+shape = SubResource("CircleShape2D_yf5fn")
+
+[node name="CooldownShoot" type="Timer" parent="." unique_id=210418259]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="timeout" from="CooldownShoot" to="." method="_on_cooldown_shoot_timeout"]
