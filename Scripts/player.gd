@@ -6,8 +6,8 @@ const SPEED = 300.0
 @onready var marker: Marker2D = $Marker2D
 @onready var BULLET = preload("res://Scenes/bullet.tscn")
 
-var direction = Vector2.ZERO
-var canShoot = true
+var direction:Vector2 = Vector2.ZERO
+var canShoot:bool = true
 var dashVelocity:int = 600
 
 enum STATE {
@@ -31,9 +31,12 @@ func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("click"):
 		shoot()
 	
-	if Input.is_action_just_pressed("dash") and current_State == STATE.RUN:
+	if Input.is_action_just_pressed("dash") and current_State == STATE.RUN and direction != Vector2.ZERO:
 		$Dash.start()
 		current_State = STATE.DASH
+	
+	if Input.is_action_just_pressed("parry"):
+		parry()
 
 func _physics_process(delta: float) -> void:
 	look_at(get_global_mouse_position())
@@ -89,3 +92,18 @@ func _on_dash_timeout() -> void:
 		current_State = STATE.IDLE
 	else:
 		current_State = STATE.RUN
+
+func hit():
+	if current_State != STATE.DASH:
+		print("hit")
+
+func parry():
+	$Animations.play("parry")
+
+#func _on_parry_timer_timeout() -> void:
+	#$Parry/HitBoxParry.disabled = true
+
+func _on_parry_area_entered(area: Area2D) -> void:
+	if area.has_method("parry") and area.is_in_group("enemy_Bullet"):
+		area.global_rotation = global_rotation
+		area.parry()

@@ -104,8 +104,10 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(1.7916672, 3)
 
-[node name="Bullet" type="Area2D" unique_id=1106065340 groups=["enemy_Bullet", "player_Bullet"]]
+[node name="Bullet" type="Area2D" unique_id=1106065340]
 scale = Vector2(3, 3)
+collision_layer = 8
+collision_mask = 21
 script = ExtResource("1_oduel")
 
 [node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=1435516297]
@@ -118,3 +120,9 @@ autoplay = &"shoot"
 [node name="HitBox" type="CollisionShape2D" parent="." unique_id=1352585529]
 position = Vector2(6.229167, 0.5)
 shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1705017338]
+rect = Rect2(-8, -3, 16, 7)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

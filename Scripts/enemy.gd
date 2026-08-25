@@ -5,7 +5,7 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
 @onready var PLAYER = get_tree().get_first_node_in_group("player")
-@onready var BULLET = preload("res://Scenes/bullet.tscn")
+@onready var BULLET = preload("res://Scenes/enemyBullet.tscn")
 
 var attack:bool = false
 var canShoot:bool = true
@@ -32,3 +32,6 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 
 func _on_cooldown_shoot_timeout() -> void:
 	canShoot = true
+
+func hit():
+	queue_free()

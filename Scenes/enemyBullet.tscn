@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://da36ccux0dcnd"]
+
+[ext_resource type="PackedScene" uid="uid://dfgfsxp2uscjk" path="res://Scenes/bullet.tscn" id="1_5u543"]
+
+[node name="Bullet" unique_id=1106065340 groups=["enemy_Bullet"] instance=ExtResource("1_5u543")]
+collision_mask = 17

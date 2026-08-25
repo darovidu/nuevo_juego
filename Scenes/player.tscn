@@ -49,6 +49,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Parry/HitBoxParry:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_sbwqj"]
 resource_name = "attack_down"
@@ -193,6 +205,22 @@ tracks/1/keys = {
 "values": [0, 1, 2, 3]
 }
 
+[sub_resource type="Animation" id="Animation_vgqql"]
+resource_name = "parry"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Parry/HitBoxParry:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.19999999),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="Animation" id="Animation_nv4vc"]
 resource_name = "walk_down"
 length = 0.8
@@ -317,6 +345,7 @@ _data = {
 &"idle_down": SubResource("Animation_6t5aa"),
 &"idle_right": SubResource("Animation_fkybt"),
 &"idle_up": SubResource("Animation_x3wgy"),
+&"parry": SubResource("Animation_vgqql"),
 &"walk_down": SubResource("Animation_nv4vc"),
 &"walk_left": SubResource("Animation_8gxox"),
 &"walk_right": SubResource("Animation_11gg7"),
@@ -326,6 +355,9 @@ _data = {
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_trcqt"]
 radius = 5.0
 height = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(12.666668, 9.333334)
 
 [node name="Player" type="CharacterBody2D" unique_id=2131973000 groups=["player"]]
 scale = Vector2(3, 3)
@@ -355,5 +387,20 @@ one_shot = true
 wait_time = 0.4
 one_shot = true
 
+[node name="ParryTimer" type="Timer" parent="." unique_id=1727919489]
+wait_time = 0.2
+one_shot = true
+
+[node name="Parry" type="Area2D" parent="." unique_id=1379255661]
+collision_layer = 16
+collision_mask = 8
+
+[node name="HitBoxParry" type="CollisionShape2D" parent="Parry" unique_id=744584584]
+position = Vector2(14.333334, 0)
+shape = SubResource("RectangleShape2D_g4v7s")
+disabled = true
+
 [connection signal="timeout" from="CooldownShoot" to="." method="_on_cooldown_shoot_timeout"]
 [connection signal="timeout" from="Dash" to="." method="_on_dash_timeout"]
+[connection signal="timeout" from="ParryTimer" to="." method="_on_parry_timer_timeout"]
+[connection signal="area_entered" from="Parry" to="." method="_on_parry_area_entered"]
