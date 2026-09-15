@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://75mshkwanbq"]
+
+[ext_resource type="Script" uid="uid://xo8t1f7wrfc7" path="res://Scripts/ui.gd" id="1_jxero"]
+
+[node name="UI" type="CanvasLayer" unique_id=1470644754]
+script = ExtResource("1_jxero")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1629720291]
+offset_right = 119.0
+offset_bottom = 15.0
+
+[node name="ProgressBar" type="ProgressBar" parent="PanelContainer" unique_id=218547217]
+layout_mode = 2
+size_flags_vertical = 1
+show_percentage = false
+
+[node name="Label" type="Label" parent="PanelContainer" unique_id=1971989963]
+layout_mode = 2
+theme_override_constants/outline_size = 5

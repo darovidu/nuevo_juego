@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://busk86dvl072o"]
+
+[ext_resource type="Texture2D" uid="uid://cxlyji7m8iuxh" path="res://Assets/Items/All_Fire_Bullet_Pixel_16x16_00.png" id="1_r1bh0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mou6w"]
+atlas = ExtResource("1_r1bh0")
+region = Rect2(256, 272, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pc01"]
+atlas = ExtResource("1_r1bh0")
+region = Rect2(272, 272, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8ure"]
+atlas = ExtResource("1_r1bh0")
+region = Rect2(288, 272, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mou6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3pc01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8ure")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_krwe7"]
+resource_name = "shoot"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c6hsp"]
+_data = {
+&"shoot": SubResource("Animation_krwe7")
+}
+
+[node name="Laser" type="RayCast2D" unique_id=1000631351]
+collision_mask = 7
+
+[node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=2082681294]
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=1841564876]
+libraries/ = SubResource("AnimationLibrary_c6hsp")

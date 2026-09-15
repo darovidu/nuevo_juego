@@ -1,14 +1,15 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
+const SPEED = 200.0
 
-@onready var marker: Marker2D = $Marker2D
+@onready var marker: Marker2D = $Weapon/Marker2D
 @onready var BULLET = preload("res://Scenes/bullet.tscn")
 
 var direction:Vector2 = Vector2.ZERO
 var canShoot:bool = true
-var dashVelocity:int = 600
+var dashVelocity:int = 400
+var last_direction = "down"
 
 enum STATE {
 	IDLE,
@@ -20,16 +21,16 @@ enum STATE {
 var current_State:STATE = STATE.IDLE
 
 
+func get_Current_State():
+	return current_State
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("right") or event.is_action_pressed("left") or event.is_action_pressed("up") or event.is_action_pressed("down"):
 		if current_State != STATE.DASH:
 			current_State = STATE.RUN
 	
-	if event.is_action_released("right") and event.is_action_released("left") and event.is_action_released("up") and event.is_action_released("down"):
-		current_State = STATE.IDLE
-	
-	if Input.is_action_just_pressed("click"):
-		shoot()
+	if Input.is_action_just_pressed("click") and canShoot:
+		$Weapon/Animations.play("shoot")
 	
 	if Input.is_action_just_pressed("dash") and current_State == STATE.RUN and direction != Vector2.ZERO:
 		$Dash.start()
@@ -39,38 +40,58 @@ func _input(event: InputEvent) -> void:
 		parry()
 
 func _physics_process(delta: float) -> void:
-	look_at(get_global_mouse_position())
+	$Weapon.look_at(get_global_mouse_position())
+	$Parry.look_at(get_global_mouse_position())
 	
 	match current_State:
 		
 		STATE.IDLE:
-			#if direction.x == 1:
-				#$Animations.play("idle_right")
-			#elif direction.x == -1:
-				#$Animations.play("idle_left")
-			#if direction.y == 1:
-				#$Animations.play("idle_down")
-			#elif direction.y == -1:
-				#$Animations.play("idle_up")
+			if last_direction == "right":
+				$Animations.play("idle_right")
+			elif last_direction == "left":
+				$Animations.play("idle_left")
+			elif last_direction == "down":
+				$Animations.play("idle_down")
+			elif last_direction == "up":
+				$Animations.play("idle_up")
 			
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			velocity.y = move_toward(velocity.y, 0, SPEED)
 		
 		STATE.RUN:
 			direction = Input.get_vector("left", "right", "up", "down").normalized()
-			
-			#if direction.x == 1:
-				#$Animations.play("walk_right")
-			#elif direction.x == -1:
-				#$Animations.play("walk_left")
-			#if direction.y == 1:
-				#$Animations.play("walk_down")
-			#elif direction.y == -1:
-				#$Animations.play("walk_up")
-			
 			velocity = direction * SPEED
+			
+			if direction == Vector2.ZERO:
+				print(last_direction)
+				current_State = STATE.IDLE
+			else:
+				if abs(velocity.x) > abs(velocity.y):
+					if velocity.x > 0:
+						$Animations.play("walk_right")
+						last_direction = "right"
+					else:
+						$Animations.play("walk_left")
+						last_direction = "left"
+				else:
+					if velocity.y > 0:
+						$Animations.play("walk_down")
+						last_direction = "down"
+					else:
+						$Animations.play("walk_up")
+						last_direction = "up"
 		
 		STATE.DASH:
+			set_collision_mask_value(4, false)
+			if last_direction == "right":
+				$Animations.play("dash_right")
+			elif last_direction == "left":
+				$Animations.play("dash_left")
+			elif last_direction == "down":
+				$Animations.play("dash_down")
+			elif last_direction == "up":
+				$Animations.play("dash_up")
+			
 			velocity = dashVelocity * direction
 		
 	move_and_slide()
@@ -79,15 +100,15 @@ func shoot():
 	canShoot = false
 	var bullet = BULLET.instantiate()
 	bullet.global_position = marker.global_position
-	bullet.global_rotation = global_rotation
+	bullet.global_rotation = $Weapon.global_rotation
 	get_parent().add_child(bullet)
-	$CooldownShoot.start()
 
 func _on_cooldown_shoot_timeout() -> void:
 	canShoot = true
 
 func _on_dash_timeout() -> void:
 	velocity = Vector2.ZERO
+	set_collision_mask_value(4, true)
 	if direction == Vector2.ZERO:
 		current_State = STATE.IDLE
 	else:
@@ -98,12 +119,17 @@ func hit():
 		print("hit")
 
 func parry():
-	$Animations.play("parry")
+	$Parry/HitBoxParry.disabled = false
+	$ParryTimer.start()
 
-#func _on_parry_timer_timeout() -> void:
-	#$Parry/HitBoxParry.disabled = true
+func _on_parry_timer_timeout() -> void:
+	$Parry/HitBoxParry.disabled = true
 
 func _on_parry_area_entered(area: Area2D) -> void:
 	if area.has_method("parry") and area.is_in_group("enemy_Bullet"):
-		area.global_rotation = global_rotation
+		area.global_rotation = $Parry.global_rotation
 		area.parry()
+
+func _on_parry_body_entered(body: Node2D) -> void:
+	if body.get_tree().get_first_node_in_group("enemy") and body.has_method("hit"):
+		body.hit()
