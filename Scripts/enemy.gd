@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 
 const SPEED = 100.0
-const JUMP_VELOCITY = -400.0
 
 @onready var PLAYER: CharacterBody2D = get_tree().get_first_node_in_group("player")
 @onready var BULLET = preload("res://Scenes/enemyBullet.tscn")
@@ -35,7 +34,6 @@ func _physics_process(delta: float) -> void:
 		STATE.RUN:
 			if attack == false:
 				current_State = STATE.IDLE
-			#look_at(PLAYER.global_position)
 			direction = to_local($NavigationAgent2D.get_next_path_position()).normalized()
 			velocity = direction * SPEED
 			

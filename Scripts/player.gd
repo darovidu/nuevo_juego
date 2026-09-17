@@ -1,21 +1,26 @@
 extends CharacterBody2D
 
 
-const SPEED = 200.0
-
 @onready var marker: Marker2D = $Weapon/Marker2D
+@onready var laser: RayCast2D = $Weapon/Laser
 @onready var BULLET = preload("res://Scenes/bullet.tscn")
 
 var direction:Vector2 = Vector2.ZERO
 var canShoot:bool = true
 var dashVelocity:int = 400
 var last_direction = "down"
+var health:int = 3
+var speed:int = 200
+
+signal hurt(health:int)
 
 enum STATE {
 	IDLE,
 	RUN,
 	ATTACK,
-	DASH
+	DASH,
+	HURT,
+	DIE
 }
 
 var current_State:STATE = STATE.IDLE
@@ -25,19 +30,23 @@ func get_Current_State():
 	return current_State
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("right") or event.is_action_pressed("left") or event.is_action_pressed("up") or event.is_action_pressed("down"):
-		if current_State != STATE.DASH:
-			current_State = STATE.RUN
-	
-	if Input.is_action_just_pressed("click") and canShoot:
-		$Weapon/Animations.play("shoot")
-	
-	if Input.is_action_just_pressed("dash") and current_State == STATE.RUN and direction != Vector2.ZERO:
-		$Dash.start()
-		current_State = STATE.DASH
-	
-	if Input.is_action_just_pressed("parry"):
-		parry()
+	if current_State != STATE.DIE:
+		if event.is_action_pressed("right") or event.is_action_pressed("left") or event.is_action_pressed("up") or event.is_action_pressed("down"):
+			if current_State != STATE.DASH:
+				current_State = STATE.RUN
+		
+		#if Input.is_action_just_pressed("click") and canShoot:
+			#$Weapon/Animations.play("shoot")
+		
+		if Input.is_action_pressed("click"):
+			shoot_laser()
+		
+		if Input.is_action_just_pressed("dash") and current_State == STATE.RUN and direction != Vector2.ZERO:
+			$Dash.start()
+			current_State = STATE.DASH
+		
+		if Input.is_action_just_pressed("parry"):
+			parry()
 
 func _physics_process(delta: float) -> void:
 	$Weapon.look_at(get_global_mouse_position())
@@ -55,12 +64,12 @@ func _physics_process(delta: float) -> void:
 			elif last_direction == "up":
 				$Animations.play("idle_up")
 			
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			velocity.y = move_toward(velocity.y, 0, SPEED)
+			velocity.x = move_toward(velocity.x, 0, speed)
+			velocity.y = move_toward(velocity.y, 0, speed)
 		
 		STATE.RUN:
 			direction = Input.get_vector("left", "right", "up", "down").normalized()
-			velocity = direction * SPEED
+			velocity = direction * speed
 			
 			if direction == Vector2.ZERO:
 				print(last_direction)
@@ -93,8 +102,12 @@ func _physics_process(delta: float) -> void:
 				$Animations.play("dash_up")
 			
 			velocity = dashVelocity * direction
+			
+		STATE.DIE:
+			$Animations.play("die")
 		
-	move_and_slide()
+	if current_State != STATE.DIE:
+		move_and_slide()
 
 func shoot():
 	canShoot = false
@@ -102,6 +115,10 @@ func shoot():
 	bullet.global_position = marker.global_position
 	bullet.global_rotation = $Weapon.global_rotation
 	get_parent().add_child(bullet)
+
+func shoot_laser():
+	laser.enabled = true
+	laser.shoot()
 
 func _on_cooldown_shoot_timeout() -> void:
 	canShoot = true
@@ -116,7 +133,12 @@ func _on_dash_timeout() -> void:
 
 func hit():
 	if current_State != STATE.DASH:
-		print("hit")
+		health -= 1
+		hurt.emit(health)
+		if health <= 0:
+			current_State = STATE.DIE
+		else:
+			current_State = STATE.HURT
 
 func parry():
 	$Parry/HitBoxParry.disabled = false

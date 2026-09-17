@@ -3,6 +3,22 @@
 [ext_resource type="Script" uid="uid://cwdn7o0qpoctw" path="res://Scripts/bullet.gd" id="1_oduel"]
 [ext_resource type="Texture2D" uid="uid://cxlyji7m8iuxh" path="res://Assets/Items/All_Fire_Bullet_Pixel_16x16_00.png" id="2_oduel"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_oduel"]
+atlas = ExtResource("2_oduel")
+region = Rect2(176, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qttmj"]
+atlas = ExtResource("2_oduel")
+region = Rect2(192, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tkcvl"]
+atlas = ExtResource("2_oduel")
+region = Rect2(208, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qiu8q"]
+atlas = ExtResource("2_oduel")
+region = Rect2(224, 80, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ycag2"]
 atlas = ExtResource("2_oduel")
 region = Rect2(256, 128, 16, 16)
@@ -23,6 +39,23 @@ region = Rect2(304, 128, 16, 16)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_oduel")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qttmj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tkcvl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qiu8q")
+}],
+"loop": 1,
+"name": &"destroy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ycag2")
 }, {
 "duration": 1.0,
@@ -35,7 +68,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_t8o6v")
 }],
 "loop": 1,
-"name": &"default",
+"name": &"shoot",
 "speed": 5.0
 }]
 
@@ -51,7 +84,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"default"]
+"values": [&"shoot"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -64,6 +97,48 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_0kq1l"]
+resource_name = "destroy"
+length = 1.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"destroy"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.33333334, 0.6666667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_tkcvl"]
@@ -80,7 +155,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"default"]
+"values": [&"shoot"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -98,6 +173,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qiu8q"]
 _data = {
 &"RESET": SubResource("Animation_qttmj"),
+&"destroy": SubResource("Animation_0kq1l"),
 &"shoot": SubResource("Animation_tkcvl")
 }
 
@@ -106,11 +182,12 @@ size = Vector2(1.7916672, 3)
 
 [node name="Bullet" type="Area2D" unique_id=1106065340]
 collision_layer = 8
-collision_mask = 22
+collision_mask = 6
 script = ExtResource("1_oduel")
 
 [node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=1435516297]
 sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"shoot"
 
 [node name="Animations" type="AnimationPlayer" parent="." unique_id=889578643]
 libraries/ = SubResource("AnimationLibrary_qiu8q")
