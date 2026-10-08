@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var laser: RayCast2D = $Weapon/Laser
 @onready var BULLET = preload("res://Scenes/bullet.tscn")
 
+@export var weapon:Resource = preload("res://Scenes/revolver.tscn")
+
 var direction:Vector2 = Vector2.ZERO
 var canShoot:bool = true
 var dashVelocity:int = 400
@@ -13,6 +15,7 @@ var health:int = 3
 var speed:int = 200
 
 signal hurt(health:int)
+signal shoot
 
 enum STATE {
 	IDLE,
@@ -35,11 +38,8 @@ func _input(event: InputEvent) -> void:
 			if current_State != STATE.DASH:
 				current_State = STATE.RUN
 		
-		#if Input.is_action_just_pressed("click") and canShoot:
-			#$Weapon/Animations.play("shoot")
-		
-		if Input.is_action_pressed("click"):
-			shoot_laser()
+		if Input.is_action_just_pressed("click") and canShoot:
+			shoot.emit()
 		
 		if Input.is_action_just_pressed("dash") and current_State == STATE.RUN and direction != Vector2.ZERO:
 			$Dash.start()
@@ -49,8 +49,13 @@ func _input(event: InputEvent) -> void:
 			parry()
 
 func _physics_process(delta: float) -> void:
-	$Weapon.look_at(get_global_mouse_position())
+	$Revolver.look_at(get_global_mouse_position())
 	$Parry.look_at(get_global_mouse_position())
+	
+	if $Revolver.global_rotation_degrees > 90.0 or $Revolver.global_rotation_degrees < -90.0:
+		$Revolver.flip(true)
+	else:
+		$Revolver.flip(false)
 	
 	match current_State:
 		
@@ -108,17 +113,6 @@ func _physics_process(delta: float) -> void:
 		
 	if current_State != STATE.DIE:
 		move_and_slide()
-
-func shoot():
-	canShoot = false
-	var bullet = BULLET.instantiate()
-	bullet.global_position = marker.global_position
-	bullet.global_rotation = $Weapon.global_rotation
-	get_parent().add_child(bullet)
-
-func shoot_laser():
-	laser.enabled = true
-	laser.shoot()
 
 func _on_cooldown_shoot_timeout() -> void:
 	canShoot = true
