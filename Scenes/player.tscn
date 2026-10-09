@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bw6i3hhxf0ai7" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://dqcr3pjea2w4e" path="res://Assets/Player/Handgun2.png" id="2_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bo6y4soaox1x4" path="res://Assets/Player/Idle.png" id="3_fkybt"]
+[ext_resource type="PackedScene" uid="uid://dp0btqc0j6m2t" path="res://Scenes/sniper.tscn" id="3_tx1dd"]
 [ext_resource type="Texture2D" uid="uid://cwfgunbq2ch4t" path="res://Assets/Player/Roll.png" id="3_x3wgy"]
 [ext_resource type="Texture2D" uid="uid://cbj5blirkdr3o" path="res://Assets/Player/Dead.png" id="4_8erm5"]
 [ext_resource type="Texture2D" uid="uid://chixpadpv4ovg" path="res://Assets/Player/Walk.png" id="4_fkybt"]
@@ -1119,9 +1120,15 @@ size = Vector2(12.666668, 9.333334)
 collision_mask = 10
 motion_mode = 1
 script = ExtResource("1_cvnsp")
+weapon = 1
 
-[node name="Revolver" parent="." unique_id=1601344144 instance=ExtResource("8_f1ek2")]
-position = Vector2(2, 4)
+[node name="Weapon" type="Node2D" parent="." unique_id=796773158]
+
+[node name="Revolver" parent="Weapon" unique_id=1601344144 instance=ExtResource("8_f1ek2")]
+position = Vector2(8, 3)
+
+[node name="Sniper" parent="Weapon" unique_id=1389175575 instance=ExtResource("3_tx1dd")]
+visible = false
 
 [node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=2005951911]
 sprite_frames = SubResource("SpriteFrames_g4v7s")
@@ -1162,7 +1169,6 @@ zoom = Vector2(2, 2)
 visible = false
 
 [connection signal="hurt" from="." to="UI" method="_on_player_hurt"]
-[connection signal="shoot" from="." to="Revolver" method="_on_player_shoot"]
 [connection signal="timeout" from="CooldownShoot" to="." method="_on_cooldown_shoot_timeout"]
 [connection signal="timeout" from="Dash" to="." method="_on_dash_timeout"]
 [connection signal="timeout" from="ParryTimer" to="." method="_on_parry_timer_timeout"]

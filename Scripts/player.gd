@@ -1,11 +1,9 @@
 extends CharacterBody2D
 
 
-@onready var marker: Marker2D = $Weapon/Marker2D
-@onready var laser: RayCast2D = $Weapon/Laser
 @onready var BULLET = preload("res://Scenes/bullet.tscn")
 
-@export var weapon:Resource = preload("res://Scenes/revolver.tscn")
+@export var weapon:int = 0
 
 var direction:Vector2 = Vector2.ZERO
 var canShoot:bool = true
@@ -15,7 +13,6 @@ var health:int = 3
 var speed:int = 200
 
 signal hurt(health:int)
-signal shoot
 
 enum STATE {
 	IDLE,
@@ -39,7 +36,7 @@ func _input(event: InputEvent) -> void:
 				current_State = STATE.RUN
 		
 		if Input.is_action_just_pressed("click") and canShoot:
-			shoot.emit()
+			shoot()
 		
 		if Input.is_action_just_pressed("dash") and current_State == STATE.RUN and direction != Vector2.ZERO:
 			$Dash.start()
@@ -47,15 +44,20 @@ func _input(event: InputEvent) -> void:
 		
 		if Input.is_action_just_pressed("parry"):
 			parry()
+		
+		if Input.is_action_just_pressed("revolver") and weapon != 1:
+			change_weapon(1)
+		elif Input.is_action_just_pressed("shotgun") and weapon != 2:
+			change_weapon(2)
 
 func _physics_process(delta: float) -> void:
-	$Revolver.look_at(get_global_mouse_position())
+	$Weapon.look_at(get_global_mouse_position())
 	$Parry.look_at(get_global_mouse_position())
 	
-	if $Revolver.global_rotation_degrees > 90.0 or $Revolver.global_rotation_degrees < -90.0:
-		$Revolver.flip(true)
+	if $Weapon/Revolver.global_rotation_degrees > 90.0 or $Weapon/Revolver.global_rotation_degrees < -90.0:
+		$Weapon/Revolver.flip(true)
 	else:
-		$Revolver.flip(false)
+		$Weapon/Revolver.flip(false)
 	
 	match current_State:
 		
@@ -77,7 +79,6 @@ func _physics_process(delta: float) -> void:
 			velocity = direction * speed
 			
 			if direction == Vector2.ZERO:
-				print(last_direction)
 				current_State = STATE.IDLE
 			else:
 				if abs(velocity.x) > abs(velocity.y):
@@ -149,3 +150,21 @@ func _on_parry_area_entered(area: Area2D) -> void:
 func _on_parry_body_entered(body: Node2D) -> void:
 	if body.get_tree().get_first_node_in_group("enemy") and body.has_method("hit"):
 		body.hit()
+
+func shoot():
+	match weapon:
+		1:
+			$Weapon/Revolver.shoot()
+		2:
+			pass
+
+func change_weapon(num_weapon:int):
+	match num_weapon:
+		1:
+			$Weapon/Revolver.visible = true
+			$Weapon/Sniper.visible = false
+			weapon = 1
+		2:
+			$Weapon/Revolver.visible = false
+			$Weapon/Sniper.visible = true
+			weapon = 2

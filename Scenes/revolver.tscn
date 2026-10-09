@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://b4utm1tqom6iw"]
 
-[ext_resource type="Script" uid="uid://bfycota3ddill" path="res://Scripts/weapon.gd" id="1_ncs2m"]
+[ext_resource type="Script" uid="uid://bfycota3ddill" path="res://Scripts/revolver.gd" id="1_ncs2m"]
 [ext_resource type="Texture2D" uid="uid://dvhbhh4gd48hy" path="res://Assets/Items/revolver.png" id="2_ldl0s"]
 [ext_resource type="Texture2D" uid="uid://bi6cibq2e5m15" path="res://Assets/Items/sniper.png" id="3_ldl0s"]
+[ext_resource type="Texture2D" uid="uid://bficc7vwpeqj1" path="res://Assets/Items/shot.png" id="4_h5sga"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_ldl0s")
@@ -101,6 +102,35 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_eb8pp"]
+atlas = ExtResource("4_h5sga")
+region = Rect2(0, 0, 12, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rwxb"]
+atlas = ExtResource("4_h5sga")
+region = Rect2(12, 0, 12, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qx853"]
+atlas = ExtResource("4_h5sga")
+region = Rect2(24, 0, 12, 11)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eb8pp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3rwxb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qx853")
+}],
+"loop": 1,
+"name": &"shot",
+"speed": 5.0
+}]
+
 [sub_resource type="Animation" id="Animation_gymyn"]
 length = 0.001
 tracks/0/type = "value"
@@ -126,6 +156,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:canShoot")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_v37om"]
@@ -153,6 +195,18 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:canShoot")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_eb8pp"]
@@ -189,6 +243,91 @@ _data = {
 &"shoot_sniper": SubResource("Animation_eb8pp")
 }
 
+[sub_resource type="Animation" id="Animation_03b68"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritesEffects:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpritesEffects:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritesEffects:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_71b88"]
+resource_name = "shot"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpritesEffects:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SpritesEffects:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritesEffects:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qg8uj"]
+_data = {
+&"RESET": SubResource("Animation_03b68"),
+&"shot": SubResource("Animation_71b88")
+}
+
 [node name="Revolver" type="Node2D" unique_id=1601344144]
 script = ExtResource("1_ncs2m")
 
@@ -196,8 +335,17 @@ script = ExtResource("1_ncs2m")
 sprite_frames = SubResource("SpriteFrames_h5sga")
 animation = &"revolver"
 
+[node name="SpritesEffects" type="AnimatedSprite2D" parent="." unique_id=1967306835]
+visible = false
+position = Vector2(7, -3)
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"shot"
+
 [node name="Animations" type="AnimationPlayer" parent="." unique_id=1191526588]
 libraries/ = SubResource("AnimationLibrary_nru2u")
+
+[node name="AnimationsEffects" type="AnimationPlayer" parent="." unique_id=1135458580]
+libraries/ = SubResource("AnimationLibrary_qg8uj")
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=507724236]
 position = Vector2(6.6666765, -2.6666718)

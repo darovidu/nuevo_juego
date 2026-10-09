@@ -1,0 +1,125 @@
+[gd_scene format=3 uid="uid://dp0btqc0j6m2t"]
+
+[ext_resource type="Texture2D" uid="uid://bi6cibq2e5m15" path="res://Assets/Items/sniper.png" id="1_wawhk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_046dc"]
+atlas = ExtResource("1_wawhk")
+region = Rect2(0, 0, 36, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dqx8g"]
+atlas = ExtResource("1_wawhk")
+region = Rect2(36, 0, 36, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tpohu"]
+atlas = ExtResource("1_wawhk")
+region = Rect2(72, 0, 36, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyci1"]
+atlas = ExtResource("1_wawhk")
+region = Rect2(108, 0, 36, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nj4t3"]
+atlas = ExtResource("1_wawhk")
+region = Rect2(144, 0, 36, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_52far"]
+atlas = ExtResource("1_wawhk")
+region = Rect2(180, 0, 36, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_046dc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dqx8g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tpohu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tyci1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nj4t3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_52far")
+}],
+"loop": 1,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_0efve"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shoot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_rk6q2"]
+resource_name = "shoot"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shoot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.3, 0.46666667, 0.6333333, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8a4w6"]
+_data = {
+&"RESET": SubResource("Animation_0efve"),
+&"shoot": SubResource("Animation_rk6q2")
+}
+
+[node name="Sniper" type="Node2D" unique_id=1389175575]
+
+[node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=139867710]
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"shoot"
+
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=722017909]
+libraries/ = SubResource("AnimationLibrary_8a4w6")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1341510470]
+position = Vector2(18, -2)
