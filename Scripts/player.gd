@@ -38,12 +38,18 @@ func _input(event: InputEvent) -> void:
 		if Input.is_action_just_pressed("click") and canShoot:
 			shoot()
 		
+		if Input.is_action_just_pressed("parry") and canShoot:
+			secundary_shoot()
+		
+		if Input.is_action_just_released("parry"):
+			$Weapon/Revolver.release_shoot()
+		
 		if Input.is_action_just_pressed("dash") and current_State == STATE.RUN and direction != Vector2.ZERO:
 			$Dash.start()
 			current_State = STATE.DASH
 		
-		if Input.is_action_just_pressed("parry"):
-			parry()
+		#if Input.is_action_just_pressed("parry"):
+			#parry()
 		
 		if Input.is_action_just_pressed("revolver") and weapon != 1:
 			change_weapon(1)
@@ -155,6 +161,13 @@ func shoot():
 	match weapon:
 		1:
 			$Weapon/Revolver.shoot()
+		2:
+			pass
+
+func secundary_shoot():
+	match weapon:
+		1:
+			$Weapon/Revolver.hold_shoot()
 		2:
 			pass
 

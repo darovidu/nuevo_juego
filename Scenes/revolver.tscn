@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dvhbhh4gd48hy" path="res://Assets/Items/revolver.png" id="2_ldl0s"]
 [ext_resource type="Texture2D" uid="uid://bi6cibq2e5m15" path="res://Assets/Items/sniper.png" id="3_ldl0s"]
 [ext_resource type="Texture2D" uid="uid://bficc7vwpeqj1" path="res://Assets/Items/shot.png" id="4_h5sga"]
+[ext_resource type="Texture2D" uid="uid://cxlyji7m8iuxh" path="res://Assets/Items/All_Fire_Bullet_Pixel_16x16_00.png" id="4_v37om"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_ldl0s")
@@ -102,6 +103,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_03b68"]
+atlas = ExtResource("4_v37om")
+region = Rect2(272, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71b88"]
+atlas = ExtResource("4_v37om")
+region = Rect2(256, 64, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_eb8pp"]
 atlas = ExtResource("4_h5sga")
 region = Rect2(0, 0, 12, 11)
@@ -116,6 +125,17 @@ region = Rect2(24, 0, 12, 11)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03b68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71b88")
+}],
+"loop": 1,
+"name": &"hold_shoot",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eb8pp")

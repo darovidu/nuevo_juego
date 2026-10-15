@@ -5,7 +5,14 @@ class_name Bullet extends Area2D
 
 var speed:int = 500
 var boolDestroy:bool = false
+var big_shot: bool = false
 
+
+func _ready() -> void:
+	if big_shot:
+		$Animations.play("big_shot")
+	else:
+		$Animations.play("shoot")
 
 func _physics_process(delta: float) -> void:
 	move_local_x(speed * delta)
@@ -25,9 +32,11 @@ func parry():
 	set_collision_mask_value(3, true)
 	set_collision_mask_value(1, false)
 	speed = 400
-	print("PARRY")
 
 func destroy():
 	boolDestroy = true
 	speed = 0
-	$Animations.play("destroy")
+	if big_shot:
+		$Animations.play("big_destroy")
+	else:
+		$Animations.play("destroy")

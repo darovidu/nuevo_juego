@@ -1125,7 +1125,8 @@ weapon = 1
 [node name="Weapon" type="Node2D" parent="." unique_id=796773158]
 
 [node name="Revolver" parent="Weapon" unique_id=1601344144 instance=ExtResource("8_f1ek2")]
-position = Vector2(8, 3)
+position = Vector2(9, 3)
+cooldown = null
 
 [node name="Sniper" parent="Weapon" unique_id=1389175575 instance=ExtResource("3_tx1dd")]
 visible = false
