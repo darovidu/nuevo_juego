@@ -56,6 +56,7 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 	move_and_slide()
 
+#Dispara la bala enemiga
 func shoot():
 	canShoot = false
 	var bullet = HOMINGBULLET.instantiate()
@@ -72,7 +73,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 func _on_cooldown_shoot_timeout() -> void:
 	canShoot = true
 
-func hit():
+func hit(damage:int):
 	current_State = STATE.DIE
 
 func _on_navigation_timer_timeout() -> void:

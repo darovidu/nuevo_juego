@@ -20,7 +20,7 @@ func shoot():
 			big_shot = false
 		get_parent().get_parent().get_parent().add_child(bullet)
 		$Animations.play("shoot")
-		$AnimationsEffects.play("shot")
+		$SpritesEffects.scale = Vector2(1.0, 1.0)
 
 func hold_shoot():
 	if canShoot:

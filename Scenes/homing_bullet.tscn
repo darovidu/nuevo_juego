@@ -183,6 +183,7 @@ size = Vector2(2, 3)
 collision_layer = 8
 collision_mask = 3
 script = ExtResource("1_0s35j")
+damage = 3
 
 [node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=394284876]
 sprite_frames = SubResource("SpriteFrames_g4v7s")
@@ -200,3 +201,4 @@ shape = SubResource("RectangleShape2D_yf5fn")
 rect = Rect2(-5, -4, 11, 9)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

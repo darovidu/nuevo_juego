@@ -1,0 +1,326 @@
+[gd_scene format=3 uid="uid://8h7pp8q2y8oe"]
+
+[ext_resource type="Script" uid="uid://dgieu0dulfqqo" path="res://Scripts/bullet_uzi.gd" id="1_4xi31"]
+[ext_resource type="Texture2D" uid="uid://cxlyji7m8iuxh" path="res://Assets/Items/All_Fire_Bullet_Pixel_16x16_00.png" id="1_qimb6"]
+[ext_resource type="Texture2D" uid="uid://dimh63547tcyc" path="res://Assets/Items/Yellow Effect Bullet Impact Explosion 32x32.png" id="3_0vjaq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y8egd"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(176, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs65t"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(192, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03bb6"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(208, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c181h"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(224, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fpyo"]
+atlas = ExtResource("3_0vjaq")
+region = Rect2(512, 384, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eafem"]
+atlas = ExtResource("3_0vjaq")
+region = Rect2(544, 384, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of4vg"]
+atlas = ExtResource("3_0vjaq")
+region = Rect2(576, 384, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f524o"]
+atlas = ExtResource("3_0vjaq")
+region = Rect2(608, 384, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xi31"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(96, 192, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vjaq"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(112, 192, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gut82"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(128, 192, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atpcl"]
+atlas = ExtResource("1_qimb6")
+region = Rect2(144, 192, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y8egd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs65t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03bb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c181h")
+}],
+"loop": 1,
+"name": &"destroy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fpyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eafem")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_of4vg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f524o")
+}],
+"loop": 1,
+"name": &"explosion",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4xi31")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vjaq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gut82")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atpcl")
+}],
+"loop": 1,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_y8egd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shoot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:explosion_damage")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Explosion:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1fpyo"]
+resource_name = "destroy"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"destroy"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:explosion_damage")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5, 3, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 3, 7, 10]
+}
+
+[sub_resource type="Animation" id="Animation_mlyr4"]
+resource_name = "explosion"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"explosion"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.33333334, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Explosion:monitoring")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.33333334),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_qs65t"]
+resource_name = "shoot"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shoot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.53333336, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_03bb6"]
+_data = {
+&"RESET": SubResource("Animation_y8egd"),
+&"destroy": SubResource("Animation_1fpyo"),
+&"explosion": SubResource("Animation_mlyr4"),
+&"shoot": SubResource("Animation_qs65t")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(1, 2)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pmax6"]
+radius = 15.0
+
+[node name="Bullet_Uzi" type="Area2D" unique_id=1527247874 groups=["bullet_uzi"]]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource("1_4xi31")
+damage = 1
+
+[node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=1105190367]
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"shoot"
+
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=1989180031]
+libraries/ = SubResource("AnimationLibrary_03bb6")
+
+[node name="HitBox" type="CollisionShape2D" parent="." unique_id=393973491]
+position = Vector2(3.5, 1)
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=1142603786]
+rect = Rect2(-5, -1, 10, 5)
+
+[node name="Explosion" type="Area2D" parent="." unique_id=1719477167]
+collision_layer = 64
+collision_mask = 5
+monitoring = false
+
+[node name="HitBox" type="CollisionShape2D" parent="Explosion" unique_id=1420327570]
+shape = SubResource("CircleShape2D_pmax6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_entered" from="Explosion" to="." method="_on_explosion_body_entered"]

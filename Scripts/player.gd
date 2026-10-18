@@ -6,7 +6,6 @@ extends CharacterBody2D
 @export var weapon:int = 0
 
 var direction:Vector2 = Vector2.ZERO
-var canShoot:bool = true
 var dashVelocity:int = 400
 var last_direction = "down"
 var health:int = 3
@@ -35,10 +34,10 @@ func _input(event: InputEvent) -> void:
 			if current_State != STATE.DASH:
 				current_State = STATE.RUN
 		
-		if Input.is_action_just_pressed("click") and canShoot:
+		if Input.is_action_just_pressed("click") and weapon != 3:
 			shoot()
 		
-		if Input.is_action_just_pressed("parry") and canShoot:
+		if Input.is_action_just_pressed("parry"):
 			secundary_shoot()
 		
 		if Input.is_action_just_released("parry"):
@@ -55,10 +54,15 @@ func _input(event: InputEvent) -> void:
 			change_weapon(1)
 		elif Input.is_action_just_pressed("shotgun") and weapon != 2:
 			change_weapon(2)
+		elif Input.is_action_just_pressed("uzi") and weapon != 3:
+			change_weapon(3)
 
 func _physics_process(delta: float) -> void:
 	$Weapon.look_at(get_global_mouse_position())
 	$Parry.look_at(get_global_mouse_position())
+	
+	if Input.is_action_pressed("click") and weapon == 3:
+		shoot()
 	
 	if $Weapon/Revolver.global_rotation_degrees > 90.0 or $Weapon/Revolver.global_rotation_degrees < -90.0:
 		$Weapon/Revolver.flip(true)
@@ -122,7 +126,7 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 
 func _on_cooldown_shoot_timeout() -> void:
-	canShoot = true
+	pass
 
 func _on_dash_timeout() -> void:
 	velocity = Vector2.ZERO
@@ -157,27 +161,40 @@ func _on_parry_body_entered(body: Node2D) -> void:
 	if body.get_tree().get_first_node_in_group("enemy") and body.has_method("hit"):
 		body.hit()
 
+#Llama a la funcion de disparo del arma correspondiente
 func shoot():
 	match weapon:
 		1:
 			$Weapon/Revolver.shoot()
 		2:
-			pass
+			$Weapon/Sniper.shoot()
+		3:
+			$Weapon/Uzi.shoot()
 
+#Llama a la funcion de disparo secundario del arma correspondiente
 func secundary_shoot():
 	match weapon:
 		1:
 			$Weapon/Revolver.hold_shoot()
 		2:
 			pass
+		3:
+			$Weapon/Uzi.secundary_shoot()
 
 func change_weapon(num_weapon:int):
 	match num_weapon:
 		1:
 			$Weapon/Revolver.visible = true
 			$Weapon/Sniper.visible = false
+			$Weapon/Uzi.visible = false
 			weapon = 1
 		2:
 			$Weapon/Revolver.visible = false
 			$Weapon/Sniper.visible = true
+			$Weapon/Uzi.visible = false
 			weapon = 2
+		3:
+			$Weapon/Revolver.visible = false
+			$Weapon/Sniper.visible = false
+			$Weapon/Uzi.visible = true
+			weapon = 3

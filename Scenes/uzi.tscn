@@ -1,0 +1,260 @@
+[gd_scene format=3 uid="uid://cpjw2ydnj2e85"]
+
+[ext_resource type="Script" uid="uid://brwe1wqhbryy8" path="res://Scripts/uzi.gd" id="1_gpd51"]
+[ext_resource type="Texture2D" uid="uid://b4pf5poacrr22" path="res://Assets/Items/uzi.png" id="2_waawd"]
+[ext_resource type="Texture2D" uid="uid://bficc7vwpeqj1" path="res://Assets/Items/shot.png" id="3_waawd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ncop"]
+atlas = ExtResource("2_waawd")
+region = Rect2(0, 0, 16, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mlfv8"]
+atlas = ExtResource("2_waawd")
+region = Rect2(16, 0, 16, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a2na2"]
+atlas = ExtResource("2_waawd")
+region = Rect2(32, 0, 16, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61bf3"]
+atlas = ExtResource("2_waawd")
+region = Rect2(48, 0, 16, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrho6"]
+atlas = ExtResource("2_waawd")
+region = Rect2(64, 0, 16, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61bcu"]
+atlas = ExtResource("2_waawd")
+region = Rect2(80, 0, 16, 14)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4v7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ncop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mlfv8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a2na2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61bf3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nrho6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61bcu")
+}],
+"loop": 1,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6y0y3"]
+atlas = ExtResource("3_waawd")
+region = Rect2(0, 0, 12, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ca17x"]
+atlas = ExtResource("3_waawd")
+region = Rect2(12, 0, 12, 11)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3myg"]
+atlas = ExtResource("3_waawd")
+region = Rect2(24, 0, 12, 11)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yf5fn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6y0y3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ca17x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3myg")
+}],
+"loop": 1,
+"name": &"shot",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_6y0y3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shoot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritesEffets:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shot"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpritesEffets:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SpritesEffets:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:can_shoot")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ca17x"]
+resource_name = "shoot"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprites:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shoot"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprites:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.13333334, 0.2, 0.26666668, 0.33333334),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("SpritesEffets:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"shot"]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("SpritesEffets:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.13333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("SpritesEffets:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:can_shoot")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_q3myg"]
+_data = {
+&"RESET": SubResource("Animation_6y0y3"),
+&"shoot": SubResource("Animation_ca17x")
+}
+
+[node name="Uzi" type="Node2D" unique_id=820004001]
+script = ExtResource("1_gpd51")
+
+[node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=125129955]
+sprite_frames = SubResource("SpriteFrames_g4v7s")
+animation = &"shoot"
+
+[node name="SpritesEffets" type="AnimatedSprite2D" parent="." unique_id=645763300]
+visible = false
+position = Vector2(7, -4)
+sprite_frames = SubResource("SpriteFrames_yf5fn")
+animation = &"shot"
+
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=1769940750]
+libraries/ = SubResource("AnimationLibrary_q3myg")
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1594064610]
+position = Vector2(7, -4)

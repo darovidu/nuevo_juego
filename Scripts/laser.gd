@@ -1,12 +1,15 @@
 extends RayCast2D
 
 @export var max_length = 1000
-@export var speed = 300
+@export var speed = 400
 @export var is_casting: bool = false
 @export var growth_time: float = 0.1
 @export var line_width: float = 10.0
 
 var tween: Tween = null
+
+signal finish_laser
+
 
 func _ready() -> void:
 	set_is_casting(is_casting)
@@ -57,6 +60,7 @@ func disappear():
 	tween.tween_property($Line2D, "visible", false, 0)
 	await tween.finished
 	set_is_casting(false)
+	finish_laser.emit()
 
 func _on_timer_timeout() -> void:
 	disappear()
